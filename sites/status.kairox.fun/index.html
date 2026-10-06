@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Status | Kairox SMP</title>
+<link rel="icon" type="image/png" href="https://kairox.fun/favicon-96x96.png" sizes="96x96" />
+<link rel="icon" type="image/svg+xml" href="https://kairox.fun/favicon.svg" />
+<link rel="shortcut icon" href="https://kairox.fun/favicon.ico" />
+<link href="https://fonts.cdnfonts.com/css/minecraft-4" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+<link href="https://fonts.cdnfonts.com/css/gg-sans-2" rel="stylesheet">
+<style>
+  :root {
+    --bg: #141020;
+    --panel: #1e1733;
+    --line: #3a2d63;
+    --acc: #b388ff;
+    --text: #dcd6f0;
+    --dim: #9a90b8;
+    --green: #57F287;
+    --yellow: #FEE75C;
+    --red: #E74C3C;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    display: flex; flex-direction: column; min-height: 100vh;
+    -webkit-user-select: none; user-select: none;
+    background: var(--bg);
+    background-image: radial-gradient(ellipse 90% 55% at 50% -5%, rgba(179,136,255,.08), transparent 70%);
+    color: var(--text);
+    font-family: 'gg sans', 'gg sans Normal', Verdana, Geneva, sans-serif;
+    font-weight: 600;
+    font-size: 15px;
+    line-height: 1.75;
+  }
+  body::after { content: ''; position: fixed; inset: 0; pointer-events: none; opacity: .045; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2'/%3E%3C/filter%3E%3Crect width='140' height='140' filter='url(%23n)'/%3E%3C/svg%3E"); }
+  .wrap { max-width: 860px; margin: 0 auto; padding: 0 22px; }
+  body > .wrap { flex: 1; width: 100%; }
+  .topbar { position: sticky; top: 12px; z-index: 50; background: transparent; border: none; padding: 12px 22px 0; }
+  .topbar .wrap { display: flex; align-items: center; gap: 12px; min-height: 44px; background: rgba(22,17,38,.94); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); border: 1px solid var(--line); border-radius: 14px; padding: 4px 6px; box-shadow: inset 0 1px 0 rgba(255,255,255,.06), 0 12px 32px rgba(0,0,0,.5); }
+  .topbar img { height: 28px; width: auto; display: block; }
+  .topbar a { display: flex; }
+  h1 { font-family: 'Minecraft', 'Press Start 2P', monospace; font-size: clamp(26px, 5vw, 40px); font-weight: 400; color: #fff; line-height: 1.5; margin: 50px 0 18px; }
+  .banner { border-radius: 10px; padding: 16px 20px; font-size: 17px; margin-bottom: 10px; display: flex; align-items: center; gap: 13px; background: var(--panel); }
+  .banner svg { width: 26px; height: 26px; flex: none; fill: none; stroke: currentColor; stroke-width: 2.2; stroke-linecap: round; stroke-linejoin: round; }
+  .banner svg .c { stroke-dasharray: 64; stroke-dashoffset: 64; animation: draw .55s ease-out forwards; }
+  .banner svg .m { stroke-dasharray: 24; stroke-dashoffset: 24; animation: draw .35s ease-out forwards; }
+  .banner svg .m1 { animation-delay: .45s; }
+  .banner svg .m2 { animation-delay: .65s; }
+  @keyframes draw { to { stroke-dashoffset: 0; } }
+  .banner.ok { color: var(--green); }
+  .banner.warn { color: var(--yellow); }
+  .banner.down { color: var(--red); }
+  .updated { color: var(--dim); font-size: 12.5px; margin-bottom: 8px; }
+  h2 { font-family: 'Minecraft', 'Press Start 2P', monospace; font-size: 16px; font-weight: 400; color: #fff; margin: 34px 0 6px; }
+  .sub { color: var(--dim); font-size: 13px; margin-bottom: 12px; }
+  .uprow { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-bottom: 6px; }
+  .upcard { background: var(--panel); border-radius: 10px; padding: 12px 16px; text-align: center; }
+  .upcard b { display: block; font-size: 22px; color: #fff; }
+  .upcard span { font-size: 12px; color: var(--dim); }
+  .comp { border-radius: 10px; background: var(--panel); margin-bottom: 8px; padding: 14px 16px; }
+  .comp .top { display: flex; align-items: center; gap: 12px; }
+  .comp .dot { width: 9px; height: 9px; border-radius: 50%; flex: none; }
+  .dot.g { background: var(--green); box-shadow: 0 0 8px var(--green); }
+  .dot.r { background: var(--red); box-shadow: 0 0 8px var(--red); }
+  .comp b { font-size: 14px; }
+  .comp .right { margin-left: auto; font-size: 13px; color: var(--dim); white-space: nowrap; }
+  .comp .right b { color: var(--text); }
+  .comp .detail { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 10px; font-size: 12.5px; }
+  .comp .detail span { background: #2a2140; border-radius: 6px; padding: 2px 10px; color: var(--dim); }
+  .comp .detail span b { color: var(--text); font-size: 12.5px; }
+  .players { margin-top: 10px; padding-top: 10px; border-top: 1px solid var(--line); font-size: 13px; color: var(--dim); }
+  .players span { display: inline-block; background: #2a2140; border-radius: 6px; padding: 2px 10px; margin: 0 6px 6px 0; color: var(--text); }
+  .chart { display: flex; align-items: flex-end; gap: 3px; height: 90px; background: var(--panel); border-radius: 10px; padding: 12px 14px 8px; }
+  .chart i { flex: 1; min-height: 3px; border-radius: 2px; background: var(--acc); opacity: .85; font-style: normal; }
+  .chart i.zero { background: #2a2140; opacity: 1; }
+  .chscale { display: flex; justify-content: space-between; font-size: 12px; color: var(--dim); margin: 6px 0 0; }
+  .recap { display: flex; gap: 8px; flex-wrap: wrap; font-size: 12.5px; color: var(--dim); margin-bottom: 12px; }
+  .recap b { color: var(--text); }
+  .recap .g { color: var(--green); }
+  .recap .y { color: var(--yellow); }
+  .recap .r { color: var(--red); }
+  .mon { margin-bottom: 10px; }
+  .monlabel { font-size: 12px; color: var(--dim); margin-bottom: 5px; font-weight: 700; }
+  .uptrack { display: flex; gap: 3px; margin: 0; align-items: flex-end; }
+  .uptrack i { flex: 1; min-width: 0; height: 30px; border-radius: 3px; background: #2a2140; font-style: normal; transform-origin: bottom; animation: grow .4s ease backwards; transition: transform .12s ease, filter .12s ease; }
+  .uptrack i:hover { transform: scaleY(1.18); filter: brightness(1.25); }
+  .uptrack i.ok { background: var(--green); }
+  .uptrack i.mid { background: var(--yellow); }
+  .uptrack i.bad { background: var(--red); }
+  @keyframes grow { from { transform: scaleY(0); } }
+  .upscale { display: flex; justify-content: space-between; font-size: 12px; color: var(--dim); margin-bottom: 6px; }
+  .legend { display: flex; gap: 14px; font-size: 12px; color: var(--dim); margin: 10px 0 6px; flex-wrap: wrap; }
+  .legend i { display: inline-block; width: 10px; height: 10px; border-radius: 3px; margin-right: 5px; font-style: normal; vertical-align: baseline; }
+  #tip { position: fixed; z-index: 99; pointer-events: none; background: #0d0918; border-radius: 8px; padding: 7px 11px; font-size: 12px; color: var(--text); box-shadow: 0 8px 24px rgba(0,0,0,.6); opacity: 0; transition: opacity .12s ease; white-space: nowrap; }
+  #tip b { color: #fff; }
+  #tip .g { color: var(--green); }
+  #tip .y { color: var(--yellow); }
+  #tip .r { color: var(--red); }
+  .note { display: flex; gap: 10px; align-items: flex-start; background: #2a2140; border-radius: 8px; padding: 10px 12px; margin-top: 10px; }
+  
+  .note-head { font-size: 12px; font-weight: 700; color: var(--acc); margin-bottom: 1px; }
+  .note-body { font-size: 13px; color: var(--text); }
+  .noteby { display: inline-block; font-size: 11px; font-weight: 700; padding: 1px 10px; border-radius: 8px; background: linear-gradient(90deg, #7c4dff, #b388ff); color: #fff; margin-left: 6px; box-shadow: 0 0 10px rgba(124,77,255,.45); }
+  #incidents { position: relative; margin-left: 7px; padding-left: 20px; }
+  #incidents::before { content: ''; position: absolute; left: 0; top: 8px; bottom: 8px; width: 2px; border-radius: 2px; background: #2a2140; }
+  #incidents > .none { margin-left: -27px; }
+  .incident { position: relative; border-radius: 10px; background: var(--panel); margin-bottom: 8px; padding: 12px 16px; }
+  .incident::before { content: ''; position: absolute; left: -24px; top: 18px; width: 9px; height: 9px; border-radius: 50%; background: var(--red); box-shadow: 0 0 8px rgba(231,76,60,.7); }
+  .incident b { font-size: 14px; }
+  .incident .mins { display: inline-block; font-size: 11px; font-weight: 700; color: #141020; background: var(--red); border-radius: 6px; padding: 1px 8px; margin-left: 8px; vertical-align: 1px; }
+  .incident span.dt { display: block; font-size: 12.5px; color: var(--dim); }
+  .none { color: var(--dim); font-size: 14px; }
+  footer { margin: 60px 0 0; border-top: 1px solid var(--line); }
+  footer .wrap { padding-top: 14px; padding-bottom: 16px; font-size: 12px; color: var(--dim); }
+  @media (max-width: 600px) {
+    .uptrack { gap: 2px; overflow-x: auto; padding-bottom: 8px; scrollbar-width: thin; }
+    .uptrack i { flex: 0 0 6px; height: 30px; }
+    .uprow { grid-template-columns: repeat(3, 1fr); }
+  }
+  .kbx { display: flex; align-items: center; justify-content: center; gap: 8px; padding: 4px 12px; font-size: 12px; font-weight: 600; text-align: center; position: sticky; top: 0; z-index: 60; }
+  .kbx ~ header.topbar { top: 38px; }
+  @media (max-width: 600px) { .kbx ~ header.topbar { top: 54px; } }
+  .kbx-info { background: #7c4dff; color: #fff; }
+  .kbx-warn { background: #FEE75C; color: #141020; }
+  .kbx a { color: inherit; font-weight: 700; }
+</style>
+</head>
+<body>
+
+<header class="topbar">
+  <div class="wrap">
+    <a href="https://kairox.fun"><img src="https://kairox.fun/icon-noback.png" alt="Kairox logo"></a>
+  </div>
+</header>
+
+<div class="wrap">
+  <h1>Status</h1>
+  <div class="banner ok" id="banner"></div>
+  <div class="updated" id="updated"></div>
+
+  <h2>Server</h2>
+  <div id="comps"></div>
+
+  <h2>Players, last 24h</h2>
+  <div class="chart" id="chart"></div>
+  <div class="chscale"><span>24h ago</span><span>now (hourly peak)</span></div>
+
+  <h2>90 days</h2>
+  <div class="recap" id="recap"></div>
+  <div class="uptrack" id="uptrack"></div>
+  <div class="upscale"><span>90 days ago</span><span>today</span></div>
+  <div class="legend"><span><i style="background:var(--green)"></i>operational</span><span><i style="background:var(--yellow)"></i>degraded</span><span><i style="background:var(--red)"></i>outage</span><span><i style="background:#2a2140"></i>no data</span></div>
+  <div id="tip"></div>
+
+  <h2>Past incidents</h2>
+  <div id="incidents"></div>
+</div>
+
+<footer>
+  <div class="wrap">
+    <span>&copy; 2026 Kairox SMP</span>
+  </div>
+</footer>
+
+<script>
+  function esc(s) { return String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;'); }
+  function pct(v) { return (v === null || v === undefined) ? '—' : (v * 100).toFixed(2) + '%'; }
+  function dayTitle(d) {
+    if (d.up === null || d.up === undefined) return d.d + ' — no data';
+    return d.d + ' — ' + (d.up * 100).toFixed(1) + '% uptime';
+  }
+  function dayClass(up) {
+    if (up === null || up === undefined) return '';
+    if (up >= 0.99) return 'ok';
+    if (up >= 0.9) return 'mid';
+    return 'bad';
+  }
+  function bucketize(days) {
+    if (window.innerWidth >= 600) return days.map(d => ({ label: dayTitle(d), up: d.up }));
+    const out = [];
+    for (let k = 0; k < days.length; k += 3) {
+      const g = days.slice(k, k + 3).filter(d => d.up !== null && d.up !== undefined);
+      const up = g.length ? g.reduce((a, d) => a + d.up, 0) / g.length : null;
+      const range = days[k].d + (g.length > 1 ? ' – ' + days[Math.min(k + 2, days.length - 1)].d : '');
+      out.push({ label: range + (up === null ? ' — no data' : ' — ' + (up * 100).toFixed(1) + '% uptime'), up: up });
+    }
+    return out;
+  }
+  function fmtTime(t) {
+    const d = new Date(t);
+    return d.toLocaleDateString('en-GB', { day: 'numeric', month: 'short' }) + ', ' + d.toLocaleTimeString('en-GB', { hour: '2-digit', minute: '2-digit' });
+  }
+  function ago(t) {
+    const s = Math.max(0, Math.round((Date.now() - t) / 1000));
+    if (s < 60) return s + 's ago';
+    const m = Math.round(s / 60);
+    if (m < 60) return m + 'm ago';
+    return Math.round(m / 60) + 'h ago';
+  }
+  function bannerHTML(status) {
+    if (status === 'operational') return `<svg viewBox="0 0 24 24"><circle class="c" cx="12" cy="12" r="10"/><path class="m m1" d="M8 12.5l2.5 2.5L16 9.5"/></svg><span>All Systems Operational</span>`;
+    if (status === 'partial') return `<svg viewBox="0 0 24 24"><circle class="c" cx="12" cy="12" r="10"/><path class="m m1" d="M12 7.5v6"/><circle class="m m2" cx="12" cy="16.5" r="0.5"/></svg><span>Partial Outage</span>`;
+    return `<svg viewBox="0 0 24 24"><circle class="c" cx="12" cy="12" r="10"/><path class="m m1" d="M9 9l6 6"/><path class="m m2" d="M15 9l-6 6"/></svg><span>Major Outage</span>`;
+  }
+  async function load() {
+    try {
+      const r = await fetch('api.json?_=' + Date.now());
+      const d = await r.json();
+      const b = document.getElementById('banner');
+      b.className = 'banner ' + (d.status === 'operational' ? 'ok' : (d.status === 'partial' ? 'warn' : 'down'));
+      b.innerHTML = bannerHTML(d.status);
+      document.getElementById('updated').textContent = 'Updated ' + ago(d.updated) + (d.version ? ' · ' + d.version : '');
+      const up = d.status === 'operational';
+      const dot = d.status === 'operational' ? 'g' : 'r';
+      const jc = (d.components || []).find(c => c.id === 'java') || {};
+      document.getElementById('comps').innerHTML =
+        `<div class="comp"><div class="top"><span class="dot ${dot}"></span><b>Kairox SMP</b>` +
+        `<span class="right">${up ? `<b>${d.players}/${d.max}</b> playing` : 'unreachable'}</span></div>` +
+        ((d.version || jc.ms !== null) ? `<div class="detail">` +
+          (d.version ? `<span>version <b>${esc(d.version)}</b></span>` : '') +
+          ((jc.ms !== null && jc.ms !== undefined) ? `<span>ping <b>${jc.ms}ms</b></span>` : '') +
+          `<span>java + bedrock</span></div>` : '') +
+        ((d.list && d.list.length) ? `<div class="players">${d.list.map(p => `<span>${esc(p)}</span>`).join('')}</div>` : '') +
+        `</div>`;
+      const h = d.players24h || [];
+      const mx = Math.max(1, ...h.map(x => x.p));
+      const nowH = new Date();
+      document.getElementById('chart').innerHTML = h.map(x => {
+        const hh = String(new Date(x.t).getHours()).padStart(2, '0') + ':00';
+        const pct_h = x.p > 0 ? Math.max(8, Math.round(x.p / mx * 100)) : 0;
+        return `<i class="${x.p > 0 ? '' : 'zero'}" style="height:${pct_h}%" title="${hh} — ${x.p} peak"></i>`;
+      }).join('');
+      (function () {
+        const days = d.days || [];
+        let g = 0, y = 0, r = 0;
+        days.forEach(dd => { if (dd.up === null || dd.up === undefined) return; if (dd.up >= 0.99) g++; else if (dd.up >= 0.9) y++; else r++; });
+        document.getElementById('recap').innerHTML =
+          `<span><b class="g">${g}</b> days operational</span><span><b class="y">${y}</b> degraded</span><span><b class="r">${r}</b> outage</span>`;
+        let n = 0;
+        document.getElementById('uptrack').innerHTML = days.map(dd => {
+          const cls = dayClass(dd.up);
+          const pct = (dd.up === null || dd.up === undefined) ? 'no data' : (dd.up * 100).toFixed(1) + '% uptime';
+          return `<i class="${cls}" style="animation-delay:${(n++) * 6}ms" data-d="${dd.d}" data-p="${pct}" data-s="${dayClass(dd.up)}"></i>`;
+        }).join('');
+        const tip = document.getElementById('tip');
+        const box = document.getElementById('uptrack');
+        box.onmousemove = function (ev) {
+          const t = ev.target.closest ? ev.target.closest('i[data-d]') : null;
+          if (!t) { tip.style.opacity = 0; return; }
+          const col = t.dataset.s === 'ok' ? 'g' : (t.dataset.s === 'mid' ? 'y' : (t.dataset.s === 'bad' ? 'r' : ''));
+          tip.innerHTML = `<b>${t.dataset.d}</b> — <span class="${col}">${t.dataset.p}</span>`;
+          tip.style.opacity = 1;
+          tip.style.left = Math.min(window.innerWidth - 190, ev.clientX + 14) + 'px';
+          tip.style.top = (ev.clientY - 44) + 'px';
+        };
+        box.onmouseleave = function () { tip.style.opacity = 0; };
+      })();
+      const inc = document.getElementById('incidents');
+      if (d.incidents && d.incidents.length) {
+        inc.innerHTML = d.incidents.map(x =>
+          `<div class="incident"><b>${esc(x.title)}</b><span class="mins">${x.mins} min</span><span class="dt">${fmtTime(x.start)} to ${fmtTime(x.end)}</span>` + (x.note ? `<div class="note"><div><div class="note-head">${x.by ? esc(x.by) : 'staff'}</div><div class="note-body">${esc(x.note)}</div></div></div>` : '') + `</div>`
+        ).join('');
+      } else {
+        inc.innerHTML = '<p class="none">No incidents in the last 90 days.</p>';
+      }
+    } catch (e) {}
+  }
+  load();
+  setInterval(load, 30000);
+</script>
+<script>
+  fetch('/banner.json?_=' + Date.now()).then(function (r) { return r.json(); }).then(function (b) {
+    if (!b || !b.enabled || !b.text) return;
+    var d = document.createElement('div');
+    d.className = 'kbx kbx-' + (b.type === 'warn' ? 'warn' : 'info');
+    var s = document.createElement('span');
+    s.textContent = b.text;
+    d.appendChild(s);
+    if (b.linkText && b.linkUrl) {
+      var a = document.createElement('a');
+      a.href = b.linkUrl;
+      a.textContent = b.linkText;
+      d.appendChild(a);
+    }
+    document.body.prepend(d);
+  }).catch(function () {});
+</script>
+</body>
+</html>

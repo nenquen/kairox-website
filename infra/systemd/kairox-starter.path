@@ -1,0 +1,6 @@
+[Unit]
+Description=Watch panel start requests
+[Path]
+PathExists=/opt/admin-panel/data/start-requested
+[Install]
+WantedBy=multi-user.target

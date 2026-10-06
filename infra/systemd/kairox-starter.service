@@ -1,0 +1,5 @@
+[Unit]
+Description=Kairox starter (panel start requests)
+[Service]
+Type=oneshot
+ExecStart=/opt/kairox/scripts/starter-run.sh

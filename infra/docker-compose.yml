@@ -1,0 +1,45 @@
+services:
+  admin:
+    build:
+      context: /opt/admin-panel
+      dockerfile: /opt/kairox/docker/admin/Dockerfile
+    container_name: kairox-admin-d
+    network_mode: host
+    restart: unless-stopped
+    mem_limit: 200m
+    environment:
+      TZ: Europe/Istanbul
+    volumes:
+      - /opt/admin-panel/data:/opt/admin-panel/data
+      - /opt/admin-panel/public:/opt/admin-panel/public:ro
+      - /opt/kairox-bot/rcon.pass:/opt/kairox-bot/rcon.pass:ro
+      - /home/nenquen/kairox:/home/nenquen/kairox
+      - /var/www/shared:/var/www/shared
+      - /tmp/tmux-1000:/tmp/tmux-1000
+      - /var/www/status.kairox.fun:/var/www/status.kairox.fun:ro
+      - /opt/mcstatus:/opt/mcstatus
+  mcstatus:
+    build:
+      context: /opt/mcstatus
+      dockerfile: /opt/kairox/docker/mcstatus/Dockerfile
+    container_name: kairox-mcstatus-d
+    network_mode: host
+    restart: unless-stopped
+    mem_limit: 250m
+    volumes:
+      - /var/www/status.kairox.fun:/var/www/status.kairox.fun
+      - /var/www/kairox.fun:/var/www/kairox.fun
+      - /opt/mcstatus:/opt/mcstatus
+      - /home/nenquen/kairox/whitelist.json:/home/nenquen/kairox/whitelist.json:ro
+  bot:
+    build:
+      context: /opt/kairox-bot-ts
+      dockerfile: /opt/kairox/docker/bot/Dockerfile
+    container_name: kairox-bot-d
+    network_mode: host
+    restart: unless-stopped
+    mem_limit: 350m
+    volumes:
+      - /opt/kairox-bot:/opt/kairox-bot
+      - /home/nenquen/kairox:/home/nenquen/kairox
+      - /tmp/tmux-1000:/tmp/tmux-1000

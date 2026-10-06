@@ -1,0 +1,17 @@
+node_modules/
+dist/
+*.log
+*.tmp
+data/
+*token*
+*.pass
+used.json
+status_msg.json
+auth.json
+hook.secret
+sessions.json
+apps.json
+audit.log
+history.json
+api.json
+.DS_Store

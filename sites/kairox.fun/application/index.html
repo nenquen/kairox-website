@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Kairox SMP Application</title>
+<link rel="icon" type="image/png" href="/favicon-96x96.png" sizes="96x96" />
+<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+<link rel="shortcut icon" href="/favicon.ico" />
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+<meta name="apple-mobile-web-app-title" content="Kairox" />
+<link rel="manifest" href="/site.webmanifest" />
+<link href="https://fonts.cdnfonts.com/css/minecraft-4" rel="stylesheet">
+<link href="https://fonts.cdnfonts.com/css/gg-sans-2" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #141020;
+    --panel: #1c152e;
+    --line: #3a2d63;
+    --acc: #b388ff;
+    --acc-dark: #7c4dff;
+    --text: #dcd6f0;
+    --dim: #9a90b8;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    display: flex; flex-direction: column; min-height: 100vh;
+    -webkit-user-select: none; user-select: none;
+    background: var(--bg);
+    background-image: radial-gradient(ellipse 90% 55% at 50% -5%, rgba(179,136,255,.08), transparent 70%);
+    color: var(--text);
+    font-family: 'gg sans', 'gg sans Normal', Verdana, Geneva, sans-serif;
+    font-weight: 600;
+    font-size: 15px;
+    line-height: 1.75;
+  }
+  .wrap { max-width: 860px; margin: 0 auto; padding: 0 22px; }
+  body > .wrap { flex: 1; width: 100%; }
+  body::after { content: ''; position: fixed; inset: 0; pointer-events: none; opacity: .045; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2'/%3E%3C/filter%3E%3Crect width='140' height='140' filter='url(%23n)'/%3E%3C/svg%3E"); }
+  .topbar { position: sticky; top: 12px; z-index: 50; background: transparent; border: none; padding: 12px 22px 0; }
+  .topbar .wrap { display: flex; align-items: center; gap: 12px; min-height: 44px; background: rgba(22,17,38,.94); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); border: 1px solid var(--line); border-radius: 14px; padding: 4px 6px; box-shadow: inset 0 1px 0 rgba(255,255,255,.06), 0 12px 32px rgba(0,0,0,.5); }
+  .back { display: inline-flex; align-items: center; gap: 8px; color: var(--dim); text-decoration: none; font-family: 'gg sans Medium', 'gg sans', Verdana, sans-serif; font-weight: 500; font-size: 13px; line-height: 1.3; padding: 6px 14px 6px 11px; border: none; background: #1e1733; border-radius: 9px; transition: background .15s, color .15s, border-color .15s; }
+  .back:hover { color: #fff; background: rgba(179,136,255,.12); border-color: var(--acc); }
+  .back img { width: 15px; height: 15px; display: block; }
+  .discord-btn { display: inline-flex; align-items: center; gap: 8px; background: #5865F2; color: #fff; font-family: 'gg sans SemiBold', 'gg sans', Verdana, sans-serif; font-weight: 600; font-size: 14px; line-height: 1.2; padding: 10px 20px; border-radius: 9px; text-decoration: none; margin: 8px 0 6px; }
+  .discord-btn:hover { background: #4752C4; }
+  .discord-btn img { width: 18px; height: 18px; display: block; }
+  section { padding: 44px 0 0; }
+  h1 { font-family: 'Minecraft', 'Press Start 2P', monospace; font-size: clamp(24px, 4.5vw, 36px); font-weight: 400; color: #fff; line-height: 1.5; margin: 50px 0 16px; }
+  h2 { font-family: 'Minecraft', 'Press Start 2P', monospace; font-size: 19px; font-weight: 400; color: var(--acc); margin: 34px 0 14px; }
+  p { margin-bottom: 14px; color: var(--text); }
+  .dim { color: var(--dim); }
+  ul, ol { margin-left: 22px; margin-bottom: 14px; }
+  li { margin-bottom: 8px; }
+  code { color: #fff; background: #2a2140; border: none; border-radius: 6px; padding: 3px 8px; font-family: Consolas, monospace; }
+  a { color: var(--acc); }
+  .steps3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin: 6px 0 4px; }
+  .step { background: #1e1733; border-radius: 10px; padding: 14px; }
+  .step b { display: block; font-size: 22px; color: var(--acc); }
+  .step span { font-size: 13px; color: var(--text); }
+  .step small { display: block; font-size: 12px; color: var(--dim); margin-top: 2px; }
+  .tpl { background: #120c20; border-radius: 10px; padding: 14px 16px; font-family: Consolas, monospace; font-size: 13px; line-height: 1.8; white-space: pre-wrap; margin: 0 0 12px; }
+  .btnrow { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 6px; }
+  .btn { display: inline-flex; align-items: center; gap: 8px; background: #7c4dff; color: #fff; font-weight: 700; font-size: 13px; padding: 9px 18px; border: none; border-radius: 8px; cursor: pointer; text-decoration: none; font-family: inherit; }
+  .btn:hover { background: #b388ff; }
+  .btn.ghost { background: #1e1733; color: var(--text); }
+  .btn.ghost:hover { background: #2a2140; }
+  @media (max-width: 600px) { .steps3 { grid-template-columns: 1fr; } }
+  footer { margin: 60px 0 0; border-top: 1px solid var(--line); }
+  footer .wrap { padding-top: 14px; padding-bottom: 16px; font-size: 12px; color: var(--dim); }
+  @media (max-width: 600px) { nav a:not(.cta) { display: none; } }
+  .kbx { display: flex; align-items: center; justify-content: center; gap: 8px; padding: 4px 12px; font-size: 12px; font-weight: 600; text-align: center; position: sticky; top: 0; z-index: 60; }
+  .kbx ~ header.topbar { top: 38px; }
+  @media (max-width: 600px) { .kbx ~ header.topbar { top: 54px; } }
+  .kbx-info { background: #7c4dff; color: #fff; }
+  .kbx-warn { background: #FEE75C; color: #141020; }
+  .kbx a { color: inherit; font-weight: 700; }
+</style>
+</head>
+<body>
+
+<header class="topbar">
+  <div class="wrap">
+    <a class="back" href="/"><img src="/back.svg" alt="" width="15" height="15">back</a>
+  </div>
+</header>
+
+<div class="wrap">
+  <h1>Apply in 5 minutes</h1>
+  <p class="dim">Kairox is whitelisted. Three steps, same-day review.</p>
+  <p class="dim" id="wlcountline" style="display:none"><b id="wlcount" style="color:#fff"></b></p>
+  <div class="steps3">
+    <div class="step"><b>1</b><span>Join Discord</span><small>application form is there</small></div>
+    <div class="step"><b>2</b><span>Get Approved</span><small>staff reviews daily</small></div>
+    <div class="step"><b>3</b><span>Whitelist + play</span><small><code>smp.kairox.fun</code></small></div>
+  </div>
+  <p style="margin-top:14px"><a class="discord-btn" href="https://discord.gg/4JaBG5GcUh"><img src="/discord.svg" alt="" width="18" height="18">Join the Discord</a></p>
+
+  <h2>No Discord?</h2>
+  <p class="dim">Mail the template below to <code id="m1"></code>.</p>
+  <div class="tpl" id="tpl">Minecraft name:
+Platform (Java/Bedrock):
+Age:
+How I found Kairox:
+What I enjoy:
+Play style:</div>
+  <div class="btnrow"><button class="btn" onclick="copyTpl(this)">COPY TEMPLATE</button><a class="btn ghost" id="mailbtn" href="#">OPEN MAIL APP</a></div>
+
+  <h2>Checklist</h2>
+  <ul>
+    <li>Exact in-game name (Bedrock: exactly as in game).</li>
+    <li>Platform: Java or Bedrock.</li>
+    <li>Age, how you found us, what you enjoy, play style.</li>
+  </ul>
+</div>
+
+<footer>
+  <div class="wrap">
+    <span>&copy; 2026 Kairox SMP</span>
+  </div>
+</footer>
+
+<script>
+  var MAIL_U = 'support', MAIL_D = 'kairox.fun';
+  var MAIL = MAIL_U + '@' + MAIL_D;
+  document.getElementById('m1').textContent = MAIL;
+  document.getElementById('mailbtn').href = 'mailto:' + MAIL + '?subject=Kairox%20whitelist%20application&body=' + encodeURIComponent(document.getElementById('tpl').textContent);
+  fetch('/api.json?_=' + Date.now()).then(function (r) { return r.json(); }).then(function (d) {
+    if (d && d.whitelist !== null && d.whitelist !== undefined) {
+      document.getElementById('wlcount').textContent = d.whitelist + ' players already whitelisted.';
+      document.getElementById('wlcountline').style.display = '';
+    }
+  }).catch(function () {});
+  function copyTpl(btn) {
+    var t = document.getElementById('tpl').textContent;
+    navigator.clipboard.writeText(t);
+    var old = btn.textContent;
+    btn.textContent = 'COPIED!';
+    setTimeout(function () { btn.textContent = old; }, 1500);
+  }
+</script>
+<script>
+  fetch('/banner.json?_=' + Date.now()).then(function (r) { return r.json(); }).then(function (b) {
+    if (!b || !b.enabled || !b.text) return;
+    var d = document.createElement('div');
+    d.className = 'kbx kbx-' + (b.type === 'warn' ? 'warn' : 'info');
+    var s = document.createElement('span');
+    s.textContent = b.text;
+    d.appendChild(s);
+    if (b.linkText && b.linkUrl) {
+      var a = document.createElement('a');
+      a.href = b.linkUrl;
+      a.textContent = b.linkText;
+      d.appendChild(a);
+    }
+    document.body.prepend(d);
+  }).catch(function () {});
+</script>
+</body>
+</html>
